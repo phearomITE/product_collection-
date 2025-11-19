@@ -1,24 +1,86 @@
 # product_collection-
 Data Pipeline from KoboToolbox to PostgreSQL using Python
 
-# Khmer Beverages Sales Performance Pipeline
+Analyst Sale Performance of Khmer Beverages – Project Overview
+1. Project Objective
 
-This project automates the collection, cleaning, and loading of **Khmer beverages sales and stock data** from KoboToolbox into PostgreSQL for performance analysis. It is designed to support data-driven decision-making for sales, distribution, and market intelligence.
+The primary goal of this project is to analyze and evaluate the sales performance of Khmer beverages across different outlets and provinces. The analysis aims to provide insights into product performance, market trends, stock management, pricing, and customer satisfaction. These insights can help businesses make data-driven decisions to increase sales, optimize inventory, and enhance customer satisfaction.
 
----
+2. Data Source
 
-## **Project Overview**
+The data is collected via surveys conducted on KoboToolbox.
 
-**Goal:**  
-To build an automated pipeline that extracts sales and product data from KoboToolbox, cleans and processes the data, and stores it in a PostgreSQL database for analysis and reporting.
+KoboToolbox is a robust platform for collecting field data through mobile and web forms.
 
-**Scope:**  
-- Data collection from multiple retail outlets and distributors of Khmer beverages (Chip Mong company products).  
-- Data includes outlet information, product stock, price, sales trends, and promotional information.  
-- Clean numeric and textual data to ensure accuracy in PostgreSQL.  
-- Support dashboards or reports for sales performance, stock levels, and trends.
+Data input was done manually by the project owner during field surveys.
 
----
+The dataset includes detailed product-level information from various retail outlets across Cambodia.
+
+3. Key Metrics Analyzed
+
+The project focuses on analyzing key metrics that determine sales performance:
+
+Total Sales: Overall revenue generated per product and per province.
+
+Stock Management: Inventory levels and stock movement trends.
+
+Product Availability: Assessment of products’ presence in outlets.
+
+Pricing Analysis: Comparison of pricing between products and competitors.
+
+Customer Satisfaction: Average satisfaction score per product to understand customer preferences.
+
+Competitor Insights: Promotions and pricing strategies to evaluate market competitiveness.
+
+4. Methodology
+
+The analysis is performed using Python with the following steps:
+
+Data Extraction: Connect to PostgreSQL database to retrieve the product_data table.
+
+Data Cleaning: Convert numeric fields to correct types, handle missing values, and standardize text fields.
+
+Data Aggregation: Summarize sales by product, province, and outlet type.
+
+Visualization: Generate charts for better understanding of trends, including:
+
+Bar charts for top products and provinces
+
+Pie charts for sales proportion
+
+Column charts for satisfaction score comparison
+
+Area charts for stock vs sales trends
+
+Insights Generation: Identify top-performing products, provinces with high sales, underperforming outlets, and stock-related issues.
+
+5. Expected Outcomes
+
+By completing this analysis, the project provides:
+
+Identification of top-selling products and their contribution to overall revenue.
+
+Recognition of key provinces or regions driving sales.
+
+Insights into stock and inventory management for better supply planning.
+
+Understanding of customer preferences through satisfaction scores.
+
+Competitive intelligence on pricing and promotions.
+
+6. Tools & Technologies
+
+Database: PostgreSQL for storing and querying sales data.
+
+Data Analysis: Python (Pandas, NumPy) for data manipulation.
+
+Visualization: Matplotlib and Seaborn for generating charts and graphs.
+
+Environment: Jupyter Notebook for interactive analysis and reporting.
+
+7. Conclusion
+
+This project provides a comprehensive overview of the sales performance of Khmer beverages, enabling decision-makers to optimize product placement, pricing, and inventory. The visualizations and metrics generated serve as actionable insights to improve sales efficiency and market competitiveness.
 
 ## **Technologies Used**
 
