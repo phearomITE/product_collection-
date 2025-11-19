@@ -1,4 +1,4 @@
-import pandas as pd 
+import pandas as pd
 import requests
 import io
 import psycopg2
@@ -40,7 +40,7 @@ if response.status_code == 200:
 
     df = pd.read_csv(csv_data, sep=sep, on_bad_lines="skip")
 
-    # Normalize columns
+    # Normalize columns: lowercase + safe names
     df.columns = (
         df.columns
         .str.strip()
@@ -53,19 +53,16 @@ if response.status_code == 200:
     # Remove duplicate columns
     df = df.loc[:, ~df.columns.duplicated()]
 
+    # ---- Force phone numbers as string and preserve leading zeros ----
+    if "phone" in df.columns:
+        df["phone"] = df["phone"].astype(str).str.strip()
+        df["phone"] = df["phone"].apply(lambda x: x.zfill(9) if x.isdigit() else x)
+    else:
+        df["phone"] = ""
+
     print("Cleaned columns:", df.columns.tolist())
 
-    # -------------------------------
-    # ✅ FIX PHONE NUMBERS
-    # -------------------------------
-    if "phone" in df.columns:
-        df["phone"] = df["phone"].astype(str).apply(
-            lambda x: "0" + x if x.isdigit() and not x.startswith("0") else x
-        )
-
-    # ---- Dynamic column handling ----
-
-    # stock_on_hand
+    # ---- Handle dynamic column names ----
     if "stock_on_hand" not in df.columns:
         for col in df.columns:
             if col.startswith("stock_on_hand"):
@@ -74,7 +71,6 @@ if response.status_code == 200:
         if "stock_on_hand" not in df.columns:
             df["stock_on_hand"] = 0
 
-    # price
     if "price" not in df.columns:
         for col in df.columns:
             if col.startswith("price") or "unit_price" in col:
@@ -83,7 +79,6 @@ if response.status_code == 200:
         if "price" not in df.columns:
             df["price"] = 0
 
-    # estimated_weekly_sales
     if "estimated_weekly_sales" not in df.columns:
         for col in df.columns:
             if col.startswith("estimated_weekly_sales"):
@@ -92,7 +87,7 @@ if response.status_code == 200:
         if "estimated_weekly_sales" not in df.columns:
             df["estimated_weekly_sales"] = 0
 
-    # Convert numeric fields
+    # Force numeric conversions
     df["price"] = pd.to_numeric(df["price"], errors="coerce").fillna(0)
     df["estimated_weekly_sales"] = pd.to_numeric(df["estimated_weekly_sales"], errors="coerce").fillna(0)
     df["stock_on_hand"] = pd.to_numeric(df["stock_on_hand"], errors="coerce").fillna(0).astype(int)
@@ -115,7 +110,7 @@ if response.status_code == 200:
     )
     cur = conn.cursor()
 
-    # Create schema and table
+    # Create schema/table
     cur.execute(f"CREATE SCHEMA IF NOT EXISTS {SCHEMA_NAME};")
     cur.execute(f"DROP TABLE IF EXISTS {SCHEMA_NAME}.{TABLE_NAME};")
 
